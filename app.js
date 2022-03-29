@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose")
 const app = express();
 const _ = require("lodash")
-const PORT = process.env.PORT
+let PORT = process.env.PORT
 const year = new Date()
 app.set('view engine', 'ejs');
 
@@ -28,9 +28,9 @@ app.get("/", function (req, res) {
   Item.find({}, (err, result) => {
     if (!err) {
       res.render("list", {
-        listTitle: "MyTodo", 
-        newListItems: result, 
-        year : year.getFullYear()
+        listTitle: "MyTodo",
+        newListItems: result,
+        year: year.getFullYear()
       });
     } else {
       res.redirect("/")
@@ -77,9 +77,9 @@ app.post("/delete", (req, res) => {
 })
 
 app.get("/about", (req, res) => {
-  
-  res.render("about", {year : year.getFullYear()})
-  
+
+  res.render("about", { year: year.getFullYear() })
+
 });
 
 
@@ -102,4 +102,10 @@ app.get("/:customLink", (req, res) => {
     }
   });
 });
-app.listen(PORT|| 3000, () => console.log(`Server started on port ${PORT}`));
+
+
+if (PORT == null || PORT == "") {
+  PORT = 3000;
+}
+
+app.listen(PORT, () => console.log(`Server has started on port ${PORT}`));
